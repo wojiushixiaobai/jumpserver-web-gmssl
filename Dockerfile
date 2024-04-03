@@ -5,17 +5,13 @@ FROM jumpserver/web:${VERSION} as web
 FROM wojiushixiaobai/${GM_VENDOR}_nginx:latest
 ARG TARGETARCH
 
-ENV LANG=zh_CN.UTF-8
+ENV LANG=en_US.UTF-8
 
-ARG APT_MIRROR=http://mirrors.ustc.edu.cn
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=web \
-    sed -i "s@http://.*.debian.org@${APT_MIRROR}@g" /etc/apt/sources.list \
-    && rm -f /etc/cron.daily/apt-compat \
-    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+RUN set -ex \
     && apt-get update \
     && apt-get install -y --no-install-recommends logrotate \
     && echo "no" | dpkg-reconfigure dash \
-    && echo "zh_CN.UTF-8" | dpkg-reconfigure locales \
+    && apt-get clean all \
     && rm -f /var/log/nginx/*.log \
     && rm -rf /var/lib/apt/lists/*
 
