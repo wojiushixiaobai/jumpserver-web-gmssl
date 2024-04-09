@@ -9,7 +9,7 @@ ENV LANG=en_US.UTF-8
 
 RUN set -ex \
     && apt-get update \
-    && apt-get install -y --no-install-recommends logrotate \
+    && apt-get install -y --no-install-recommends logrotate curl \
     && echo "no" | dpkg-reconfigure dash \
     && apt-get clean all \
     && rm -f /var/log/nginx/*.log \
